@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Exam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .exam-container {
+            max-width: 100%
+            margin: 20px auto;
+            padding: 20px;
+            background: floralwhite;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-top: 10px;
+        }
+        #error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .question-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+        }
+        .question-status {
+            font-size: 14px;
+            color: #666;
+        }
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color:whitesmoke;
+        }
+        .option {
+            padding: 15px;
+            background: ghostwhite;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            background: #e9ecef;
+        }
+        .option.selected {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .option-text {
+            flex: 1;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #2196F3;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: #1976D2;
+        }
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .submit-btn:hover {
+            background: #388E3C;
+        }
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+            margin: 20px 0px;
+            color: #333;
+            padding: 10px;
+            background: snow;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        #timer.warning {
+            color: #f44336;
+            animation: blink 1s infinite;
+        }
+        .question-palette {
+            margin-top: 20px;
+            padding: 20px;
+            background:navajowhite;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .palette-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .palette-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .palette-btn:hover {
+            transform: scale(1.05);
+        }
+        .palette-btn.answered {
+            background: green;
+            border-color: #2196F3;
+        }
+        .palette-btn.marked {
+            background: purple;
+            border-color: #ff9800;
+        }
+        .palette-btn.current {
+            background: #2196F3;
+            color: white;
+            transform: scale(1.1);
+        }
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-container">
+        <div id="error-message"></div>
+        <div id="timer">30:00</div>
+        
+        <div id="question-container" class="question-container">
+            <!-- Questions will be loaded here -->
+        </div>
+        
+        <div class="navigation-buttons">
+            <button id="prevBtn" class="nav-btn">Previous</button>
+            <button id="markBtn" class="nav-btn">Mark for Review</button>
+            <button id="nextBtn" class="nav-btn">Next</button>
+            <button id="submitBtn" class="submit-btn">Submit Exam</button>
+        </div>
+        
+        <div id="question-palette" class="question-palette">
+            <div class="palette-buttons">
+                <!-- Question palette will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load main script -->
+    <script src="js/script.js"></script>
+</body>
+</html>

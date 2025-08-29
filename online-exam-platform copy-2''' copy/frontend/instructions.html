@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Instructions</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('bggibbli.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .instructions-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .rules-list {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .rules-list ol {
+            padding-left: 20px;
+        }
+
+        .rules-list li {
+            margin-bottom: 10px;
+        }
+
+        .agree-section {
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #startExamBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #startExamBtn:hover {
+            background: #45a049;
+        }
+
+        #startExamBtn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .checkbox-label {
+            margin-left: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions-container">
+        <h1>Exam Instructions</h1>
+        <div class="rules-list">
+            <h3>Please read the following rules carefully:</h3>
+            <ol>
+                <li>The exam duration is <strong>30 minutes</strong>.</li>
+                <li>There are <strong>15 questions</strong> in total.</li>
+                <li>Each question carries <strong>1 mark</strong>.</li>
+                <li>Use the <strong>Previous</strong> and <strong>Next</strong> buttons to navigate.</li>
+                <li>Click <strong>Mark for Review</strong> to flag questions you want to revisit.</li>
+                <li>The timer will turn red when <strong>30 seconds</strong> remain.</li>
+                <li><strong>Do not refresh</strong> the page during the exam.</li>
+            </ol>
+        </div>
+        
+        <div class="agree-section">
+            <input type="checkbox" id="agreeCheckbox">
+            <label for="agreeCheckbox" class="checkbox-label">
+                I have read and understood all the instructions
+            </label>
+        </div>
+        
+        <button id="startExamBtn" disabled>Start Exam</button>
+    </div>
+
+    <script>
+        // Enable Start Exam button only when checkbox is checked
+        const checkbox = document.getElementById('agreeCheckbox');
+        const startBtn = document.getElementById('startExamBtn');
+        
+        checkbox.addEventListener('change', function() {
+            startBtn.disabled = !this.checked;
+        });
+        
+        startBtn.addEventListener('click', function() {
+            window.location.href = 'exam.html';
+        });
+    </script>
+</body>
+</html>

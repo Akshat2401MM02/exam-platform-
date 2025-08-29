@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Results</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .scorecard-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .score-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .score-box {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .correct-box {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+        }
+        .wrong-box {
+            background: #ffebee;
+            border: 2px solid #f44336;
+        }
+        .unattempted-box {
+            background: #f5f5f5;
+            border: 2px solid #9e9e9e;
+        }
+        .time-box {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+        }
+        .percentage {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .question-analysis {
+            margin-top: 40px;
+        }
+        .question-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .question-status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .status-correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .status-wrong {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .status-unattempted {
+            background: #f5f5f5;
+            color: #666;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .option-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .option-correct {
+            background: #e8f5e9;
+            border: 1px solid #4CAF50;
+        }
+        .option-wrong {
+            background: #ffebee;
+            border: 1px solid #f44336;
+        }
+        .option-neutral {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        .explanation-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #2196F3;
+        }
+        .restart-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .restart-btn:hover {
+            background: #45a049;
+        }
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 10px auto 30px;
+            padding: 15px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .print-btn:hover {
+            background: #1976D2;
+        }
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+        @media print {
+            .restart-btn, .print-btn {
+                display: none;
+            }
+            .scorecard-container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scorecard-container">
+        <h1>Your Exam Results</h1>
+        <div id="results-container">
+            <!-- Results will be populated by JavaScript -->
+        </div>
+        <button onclick="window.print()" class="print-btn">Print Results</button>
+        <a href="index.html" class="restart-btn">Start New Exam</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                console.log('Attempting to retrieve exam data...');
+                const examDataStr = localStorage.getItem('examData');
+                console.log('Raw exam data from localStorage:', examDataStr);
+                
+                if (!examDataStr) {
+                    throw new Error('No exam data found');
+                }
+                
+                const examData = JSON.parse(examDataStr);
+                console.log('Parsed exam data:', examData);
+                
+                if (!examData || !examData.questionDetails) {
+                    throw new Error('Invalid exam data format');
+                }
+                
+                const container = document.getElementById('results-container');
+                if (!container) {
+                    throw new Error('Results container not found');
+                }
+                
+                const minutes = Math.floor(examData.timeSpent / 60);
+                const seconds = examData.timeSpent % 60;
+                
+                // Summary section
+                container.innerHTML = `
+                    <div class="score-summary">
+                        <div class="score-box correct-box">
+                            <h3>Correct Answers</h3>
+                            <div class="percentage">${examData.score || 0}</div>
+                            <p>out of ${examData.totalQuestions || 0}</p>
+                        </div>
+                        <div class="score-box wrong-box">
+                            <h3>Wrong Answers</h3>
+                            <div class="percentage">${(examData.totalQuestions || 0) - (examData.score || 0) - (examData.unattemptedCount || 0)}</div>
+                            <p>out of ${examData.totalQuestions || 0}</p>
+                        </div>
+                        <div class="score-box unattempted-box">
+                            <h3>Not Attempted</h3>
+                            <div class="percentage">${examData.unattemptedCount || 0}</div>
+                            <p>out of ${examData.totalQuestions || 0}</p>
+                        </div>
+                        <div class="score-box time-box">
+                            <h3>Time Taken</h3>
+                            <div class="percentage">${minutes}:${seconds.toString().padStart(2, '0')}</div>
+                            <p>minutes</p>
+                        </div>
+                    </div>
+                    <div class="final-score">
+                        <h2>Final Score: ${(examData.percentage || 0).toFixed(1)}%</h2>
+                    </div>
+                    ${examData.questionDetails.length > 0 ? `
+                        <div class="question-analysis">
+                            <h2>Detailed Analysis</h2>
+                            ${examData.questionDetails.map(q => {
+                                const isAttempted = q.userAnswer !== -1;
+                                return `
+                                    <div class="question-card">
+                                        <div class="question-header">
+                                            <h3>Question ${q.questionNumber}</h3>
+                                            <span class="question-status ${
+                                                !isAttempted ? 'status-unattempted' :
+                                                q.isCorrect ? 'status-correct' : 'status-wrong'
+                                            }">
+                                                ${!isAttempted ? 'Not Attempted' :
+                                                q.isCorrect ? 'Correct ✓' : 'Wrong ✗'}
+                                            </span>
+                                        </div>
+                                        <p class="question-text">${q.questionText}</p>
+                                        <ul class="options-list">
+                                            ${q.options.map((option, index) => {
+                                                const isCorrect = index === q.correctAnswer;
+                                                const isUserAnswer = index === q.userAnswer;
+                                                const isWrong = isUserAnswer && !q.isCorrect;
+                                                
+                                                return `
+                                                    <li class="option-item ${
+                                                        isCorrect ? 'option-correct' :
+                                                        isWrong ? 'option-wrong' :
+                                                        'option-neutral'
+                                                    }">
+                                                        ${option}
+                                                        ${isCorrect ? ' ✓' : ''}
+                                                        ${isWrong ? ' ✗' : ''}
+                                                    </li>
+                                                `;
+                                            }).join('')}
+                                        </ul>
+                                        <div class="explanation-box">
+                                            <strong>Explanation:</strong><br>
+                                            ${q.explanation || 'No explanation provided'}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    ` : ''}
+                `;
+
+                console.log('Results rendered successfully');
+                localStorage.removeItem('examData');
+                console.log('Exam data cleared from localStorage');
+                
+            } catch (error) {
+                console.error('Error displaying results:', error);
+                document.getElementById('results-container').innerHTML = `
+                    <div class="no-data">
+                        <h2>No Exam Data Found</h2>
+                        <p>Please complete an exam first to view your results.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+1|Which traversal gives sorted output in a Binary Search Tree?|Preorder|Inorder|Postorder|Level-order|2|Inorder traversal of a BST visits nodes in ascending order.
+2|In a circular linked list, which node links to the head?|Last node|Middle node|Head|Random node|1|In a circular linked list, the last node points back to the head.
+3|What happens when stack overflows?|Memory error|Restart|Segmentation fault|Corrupted pointer|3|Stack overflow can lead to segmentation faults in C.
+4|Which of the following trees has minimum height for n keys?|Binary Search Tree|AVL Tree|B+ Tree|Splay Tree|3|B+ Tree has multiple children per node, reducing height significantly.
+5|Which rotation is used in right-left imbalance of AVL Tree?|Left Rotation|Right Rotation|Left-Right|Right-Left|4|Right-Left rotation is used to fix right-left imbalance in AVL.
+6|What is the time complexity of heap sort?|O(log(n))|O(n^2log(n))|O(nlog(n))|O(n)|3|Heap sort has O(nlog(n)) time complexity due to heapify operations.
+7|Which operation is most costly in a splay tree?|Insert|Search|Splay|Delete|4|Delete requires splaying and restructuring, making it costly.
+8|Which node is always accessed last in BFS?|Root|Leaf|Farthest node|Middle node|3|BFS ends at the farthest reachable node from the start.
+9|Dijkstra's algorithm fails with which type of weights?|Zero|Positive|Negative|Mixed|3|Dijkstra's does not work with negative edge weights.
+10|What is time complexity of merging two binomial heaps?|O(log n)|O(n)|O(n log n)|O(1)|1|Merging two binomial heaps takes O(log n) time.
+11|What is the space complexity of adjacency matrix for n vertices?|O(n)|O(n^2)|O(log n)|O(n log n)|2|Adjacency matrix requires O(n^2) space.
+12|What condition causes queue underflow?|rear == front|front == NULL|Empty array|front > rear|2|If front is NULL (or invalid), the queue is empty — underflow.
+13|Which tree guarantees O(log n) insert/search/delete?|BST|Splay Tree|AVL Tree|Heap|3|AVL Tree is strictly balanced and guarantees O(log n) operations.
+14|Which node in a max heap has no children?|Root|First node|Middle node|Leaf|4|Leaves in a max heap do not have any children.
+15|What is the branching factor of a B-Tree of order m?|m|m+1|m-1|⌈m/2⌉|1|A B-tree of order m can have up to m children.
